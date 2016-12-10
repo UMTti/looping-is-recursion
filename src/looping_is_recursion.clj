@@ -37,15 +37,27 @@
   (if (= (get frekvenssisetti item) nil) (assoc frekvenssisetti item 1) (assoc frekvenssisetti item (+ 1 (get frekvenssisetti item)))) )
 
 
-((defn parity [a-seq]
-  (loop [lista a-seq frekvenssisetti {}]
+((defn parity [a-seq] (loop [lista a-seq frekvenssisetti {}]
     (cond
-      (empty? lista) (keys (filter #(even? (mod second 2)) frekvenssisetti))
-      :else (recur (rest lista) (lisaa-frekvenssi frekvenssisetti (first lista)) ) ))) [1 2 2])
+      (empty? lista) (keys (filter #(odd? (mod (second %) 2)) frekvenssisetti))
+      :else (recur (rest lista) (lisaa-frekvenssi frekvenssisetti (first lista)) ) ))) [1 1 2])
+
+
 
 (defn fast-fibo [n]
-  ":(")
+  ( cond
+   (= n 0) 0
+    (= n 1) 1
+    (= n 2) 1
+    :else (loop [fnth 1 fnmiinus 1 ni n nykyinen 2]
+      (cond
+        (= nykyinen n) fnth
+        :else (recur (+ fnth fnmiinus) fnth ni (+ nykyinen 1)))
+    )))
+
 
 (defn cut-at-repetition [a-seq]
-  [":("])
+  (loop [lista [] alkup a-seq]
+    (if (empty? alkup) lista
+     (recur (if (.contains lista (first alkup)) lista (conj lista (first alkup)) ) (rest alkup)))))
 
